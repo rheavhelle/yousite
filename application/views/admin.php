@@ -10,7 +10,7 @@
 <body>
 
 <div class="container">
-	<h2>CREATE</h2>
+	<h2>ADD Categories</h2>
 	<?php echo form_open('site/create');?>
 
 	<p>
