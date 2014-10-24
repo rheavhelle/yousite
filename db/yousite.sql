@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.1.12
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2014 at 01:24 PM
--- Server version: 5.6.20
--- PHP Version: 5.5.15
+-- Generation Time: Oct 24, 2014 at 07:24 PM
+-- Server version: 5.5.36
+-- PHP Version: 5.4.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -27,11 +27,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `admin` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
   `department` varchar(20) NOT NULL,
-  `isactive` tinyint(1) NOT NULL DEFAULT '1'
+  `isactive` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`),
+  KEY `id_2` (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
@@ -48,13 +51,19 @@ INSERT INTO `admin` (`id`, `username`, `password`, `department`, `isactive`) VAL
 --
 
 CREATE TABLE IF NOT EXISTS `categories` (
-`cat_id` int(11) NOT NULL,
+  `cat_id` int(11) NOT NULL AUTO_INCREMENT,
   `category` varchar(20) NOT NULL,
   `description` varchar(50) NOT NULL,
   `subcat_id` int(11) NOT NULL,
   `listing_id` int(11) NOT NULL,
-  `district_id` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `district_id` int(11) NOT NULL,
+  PRIMARY KEY (`cat_id`),
+  KEY `subcat_id` (`subcat_id`),
+  KEY `listing_id` (`listing_id`),
+  KEY `district_id` (`district_id`),
+  KEY `cat_id` (`cat_id`),
+  KEY `description` (`description`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `categories`
@@ -62,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 
 INSERT INTO `categories` (`cat_id`, `category`, `description`, `subcat_id`, `listing_id`, `district_id`) VALUES
 (1, 'restaurants', 'food', 0, 0, 0),
-(2, '', '', 0, 0, 0);
+(3, 'bars', 'hehe', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -73,7 +82,9 @@ INSERT INTO `categories` (`cat_id`, `category`, `description`, `subcat_id`, `lis
 CREATE TABLE IF NOT EXISTS `districts` (
   `district_id` int(11) NOT NULL,
   `district` varchar(30) NOT NULL,
-  `district_code` tinyint(4) NOT NULL
+  `district_code` tinyint(4) NOT NULL,
+  PRIMARY KEY (`district_id`),
+  KEY `district_id` (`district_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -83,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `districts` (
 --
 
 CREATE TABLE IF NOT EXISTS `listings` (
-`listing_id` int(11) NOT NULL,
+  `listing_id` int(11) NOT NULL AUTO_INCREMENT,
   `cat_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `description` text NOT NULL,
@@ -104,7 +115,14 @@ CREATE TABLE IF NOT EXISTS `listings` (
   `twitter_act` varchar(50) NOT NULL,
   `facebook_act` varchar(50) NOT NULL,
   `google_act` varchar(50) NOT NULL,
-  `isactive` tinyint(1) NOT NULL DEFAULT '1'
+  `isactive` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`listing_id`),
+  UNIQUE KEY `subcat_id` (`cat_id`),
+  UNIQUE KEY `promo_id` (`promo_id`),
+  UNIQUE KEY `menu_id` (`menu_id`),
+  UNIQUE KEY `listing_id` (`listing_id`),
+  KEY `cat_id` (`cat_id`),
+  KEY `district_id` (`district_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -114,10 +132,12 @@ CREATE TABLE IF NOT EXISTS `listings` (
 --
 
 CREATE TABLE IF NOT EXISTS `menu` (
-`menu_id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL AUTO_INCREMENT,
   `listing_id` int(11) NOT NULL,
   `menu` varchar(50) NOT NULL,
-  `isactive` tinyint(1) NOT NULL DEFAULT '1'
+  `isactive` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`menu_id`),
+  KEY `listing_id` (`listing_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -127,13 +147,15 @@ CREATE TABLE IF NOT EXISTS `menu` (
 --
 
 CREATE TABLE IF NOT EXISTS `promos` (
-`promo_id` int(11) NOT NULL,
+  `promo_id` int(11) NOT NULL AUTO_INCREMENT,
   `listing_id` int(11) NOT NULL,
   `promo` varchar(50) NOT NULL,
   `promo_desc` text NOT NULL,
   `date_start` datetime NOT NULL,
   `date_end` date NOT NULL,
-  `isactive` tinyint(1) NOT NULL DEFAULT '1'
+  `isactive` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`promo_id`),
+  KEY `listing_id` (`listing_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -143,91 +165,50 @@ CREATE TABLE IF NOT EXISTS `promos` (
 --
 
 CREATE TABLE IF NOT EXISTS `sub_categories` (
-`subcat_id` int(11) NOT NULL,
+  `subcat_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `cat_id` int(11) NOT NULL
+  `cat_id` int(11) NOT NULL,
+  PRIMARY KEY (`subcat_id`),
+  KEY `subcat_id` (`subcat_id`),
+  KEY `cat_id` (`cat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
--- Indexes for dumped tables
+-- Constraints for dumped tables
 --
 
 --
--- Indexes for table `admin`
---
-ALTER TABLE `admin`
- ADD PRIMARY KEY (`id`), ADD KEY `id` (`id`), ADD KEY `id_2` (`id`);
-
---
--- Indexes for table `categories`
---
-ALTER TABLE `categories`
- ADD PRIMARY KEY (`cat_id`), ADD KEY `subcat_id` (`subcat_id`), ADD KEY `listing_id` (`listing_id`), ADD KEY `district_id` (`district_id`), ADD KEY `cat_id` (`cat_id`);
-
---
--- Indexes for table `districts`
+-- Constraints for table `districts`
 --
 ALTER TABLE `districts`
- ADD PRIMARY KEY (`district_id`), ADD KEY `district_id` (`district_id`);
+  ADD CONSTRAINT `districts_ibfk_1` FOREIGN KEY (`district_id`) REFERENCES `categories` (`district_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Indexes for table `listings`
+-- Constraints for table `listings`
 --
 ALTER TABLE `listings`
- ADD PRIMARY KEY (`listing_id`), ADD UNIQUE KEY `subcat_id` (`cat_id`), ADD UNIQUE KEY `promo_id` (`promo_id`), ADD UNIQUE KEY `menu_id` (`menu_id`), ADD UNIQUE KEY `listing_id` (`listing_id`), ADD KEY `cat_id` (`cat_id`), ADD KEY `district_id` (`district_id`);
+  ADD CONSTRAINT `listings_ibfk_3` FOREIGN KEY (`promo_id`) REFERENCES `promos` (`promo_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `listings_ibfk_1` FOREIGN KEY (`listing_id`) REFERENCES `categories` (`listing_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `listings_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Indexes for table `menu`
+-- Constraints for table `menu`
 --
 ALTER TABLE `menu`
- ADD PRIMARY KEY (`menu_id`), ADD KEY `listing_id` (`listing_id`);
+  ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`listing_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Indexes for table `promos`
+-- Constraints for table `promos`
 --
 ALTER TABLE `promos`
- ADD PRIMARY KEY (`promo_id`), ADD KEY `listing_id` (`listing_id`);
+  ADD CONSTRAINT `promos_ibfk_1` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`listing_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Indexes for table `sub_categories`
+-- Constraints for table `sub_categories`
 --
 ALTER TABLE `sub_categories`
- ADD PRIMARY KEY (`subcat_id`), ADD KEY `subcat_id` (`subcat_id`), ADD KEY `cat_id` (`cat_id`);
+  ADD CONSTRAINT `sub_categories_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `categories` (`cat_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `admin`
---
-ALTER TABLE `admin`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `listings`
---
-ALTER TABLE `listings`
-MODIFY `listing_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `menu`
---
-ALTER TABLE `menu`
-MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `promos`
---
-ALTER TABLE `promos`
-MODIFY `promo_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `sub_categories`
---
-ALTER TABLE `sub_categories`
-MODIFY `subcat_id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
