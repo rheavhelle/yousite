@@ -11,8 +11,8 @@
 
 <div class="container">
 	<div class="panel" style="text-align:center;">
-	<h2>ADD Categories</h2>
-	<?php echo form_open('site/create');?>
+	<h2>ADD Sub-Categories</h2>
+	<?php echo form_open('a_subcat/create');?>
 
 	<p>
 		<label for="category">Category: &nbsp</label>
@@ -20,8 +20,8 @@
 	</p>
 
 	<p>
-		<label for="description">Description: </label>
-		<input type="text" name="description" id="description" />
+		<label for="category">Sub-Category: &nbsp</label>
+		<input type="text" name="category" id="category" />
 	</p>
 
 	<p>
