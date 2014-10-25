@@ -30,6 +30,30 @@
 
 	<?php echo form_close(); ?>
 	</div>
+<hr/>
+
+<h2>READ</h2>
+	<?php if(isset($records)) : foreach($records as $row) :?>
+
+		<h2><?php echo anchor("site/delete/$row->cat_id", $row->category) ; ?></h2>
+		<div><?php echo $row->description; ?></div>
+
+	<?php endforeach; ?>
+
+	<?php else : ?>
+
+		<h2>No records were returned</h2>
+
+	<?php endif ; ?>
+
+<hr/>
+
+	<h2>DELETE</h2>
+<p>to delte click on the title</p>
+
+
+
+
 </div>
 
 </body>

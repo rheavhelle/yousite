@@ -4,7 +4,7 @@ class Site_model extends CI_Model {
 
 	function get_records()
 	{
-		$query = $this->db->get('data');
+		$query = $this->db->get('categories');
 		return $query->result();
 	}
 
@@ -16,14 +16,14 @@ class Site_model extends CI_Model {
 
 	function update_record($data)
 	{
-		$this->db->where('id',1);
-		$this->db->update('data', $data);
+		$this->db->where('cat_id',1);
+		$this->db->update('categories', $data);
 	}
 
 	function delete_row()
 	{
-		$this->db->where('id', $this->uri->segment(3));
-		$this->db->delete('data');
+		$this->db->where('cat_id', $this->uri->segment(3));
+		$this->db->delete('categories');
 	}
 
 }
