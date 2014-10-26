@@ -9,8 +9,10 @@ class Subcat extends CI_Controller {
 
 	function create()
 	{
-		$data['categories'] = $this->categories->get_records(); 
-		$data = array (
+		$this->load->model('site_model', 'categories');
+		$data['categories'] = $this->categories->get_categories;
+ 
+ 		$data = array (
 				'name' => $this->input->post('name')
 			);
 

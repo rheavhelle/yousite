@@ -13,28 +13,29 @@
 	<div class="container">
 	<div class="panel" style="text-align:center;">
 	<h2>ADD SUB - Categories</h2>
-	<?php echo form_open('subcat/create');?>
+	<form role="form" method="post">
 
 	<p>
-		<label for="category">Categories : </label>
-		<select name="cat_id" id="categories">
+		<label for="cat_id">Categories : </label>
+		<select name="cat_id" id="cat_id">
 
 		<option value="">Please select</option>
 		<?php
 			if (isset($categories)) {
+				foreach($categories as $ckey => $cval) {
+					if($cval->isactive)
+					{
 					?>
-				<option value="<?=$cval->id?>" <?php if($cval->id == set_value(cat_id)) { echo "selected"; } ?>><?=$cval->category?></option>
+					<option value="<?=$cval->cat_id?>" <?php if($cval->cat_id == set_value('cat_id')) {echo "selected";} ?> > <?=$cval->category;?> </option>
 				<?php
-							}
-
+					}
+				}
+			}
 		?>
-			
-
 		</select>
 
 	</p>
 	
-
 	<p>
 		<label for="name">Subcategory: </label>
 		<input type="text" name="name" id="name" />

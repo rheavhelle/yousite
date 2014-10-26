@@ -2,7 +2,7 @@
 
 class Subcat_model extends CI_Model {
 
-	function get_records()
+	function get_subcats()
 	{
 		$query = $this->db->get('data');
 		return $query->result();
@@ -17,10 +17,14 @@ class Subcat_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 
-	function add_record($data)
+	function add_record($data = NULL)
 	{
-		$this->db->insert('sub_categories', $data);
-		return;
+		if($data){
+			return $this->db->insert('sub_categories', $data);
+		}
+		else {
+			return false;
+		}
 	}
 
 	function update_records($data)

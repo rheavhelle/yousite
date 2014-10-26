@@ -6,7 +6,7 @@ class Site extends CI_Controller {
 	{
 		$data = array();
 
-		if($query = $this->site_model->get_records())
+		if($query = $this->site_model->get_categories())
 		{
 			$data['records'] = $query;
 		}

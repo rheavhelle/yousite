@@ -2,10 +2,23 @@
 
 class Site_model extends CI_Model {
 
-	function get_records()
+	function get_categories($id = NULL, $limit = null, $offset = null)
 	{
-		$query = $this->db->get('categories');
-		return $query->result();
+		$this->db->select('*');
+		$this->db->from('categories');
+		if($id){
+			$this->db->where('cat_id', $id);
+		}
+		$this->db->where('isactive', 1);
+		if($id){
+			return $this->db->get()->row();
+		}
+		else{
+			if($limit != null){
+				$this->db->limit($limit,$offset);
+			}
+			return $this->db->get()->result();
+		}
 	}
 
 	function add_record($data)
