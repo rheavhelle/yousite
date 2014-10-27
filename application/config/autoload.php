@@ -109,11 +109,10 @@ $autoload['language'] = array();
 |
 */
 
-<<<<<<< HEAD
-$autoload['model'] = array();
-=======
+
+
 $autoload['model'] = array('site_model','subcat_model', 'm_login' );
->>>>>>> origin/master
+
 
 
 /* End of file autoload.php */
